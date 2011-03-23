@@ -15,32 +15,25 @@ Jeweler::Tasks.new do |gem|
   gem.name = "mongoid_money"
   gem.homepage = "http://github.com/jeffbozek/mongoid_money"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Money datatype for Mongoid. Inspired by Ruby Money.}
+  gem.description = %Q{Money datatype for Mongoid. Inspired by Ruby Money. Makes handling money simple. Stores the value in the db as cents. Currently handles USD.}
   gem.email = "jeff.bozek@gmail.com"
   gem.authors = ["Jeff Bozek"]
+  gem.files = Dir.glob('lib/**/*.rb')
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
-  #  gem.add_development_dependency 'rspec', '> 1.2.3'
+  gem.add_runtime_dependency 'mongo', '~> 1.1'
+  gem.add_runtime_dependency 'mongoid', '2.0.0.rc.7'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new
+rescue LoadError
+  task(:spec){abort "`gem install rspec` to run specs"}
 end
-
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
-
-task :default => :test
+task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
