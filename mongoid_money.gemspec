@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email = %q{jeff.bozek@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.markdown"
   ]
   s.files = [
     "lib/mongoid_money.rb",
