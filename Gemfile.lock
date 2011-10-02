@@ -51,7 +51,7 @@ DEPENDENCIES
   bundler (~> 1.0.0)
   database_cleaner
   jeweler (~> 1.6.2)
-  mongoid
+  mongoid (~> 2.0)
   rdoc
   rspec (>= 2.0.0)
   simplecov (>= 0.4.0)
