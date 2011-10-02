@@ -1,5 +1,10 @@
+# encoding: utf-8
+
 require 'rubygems'
+require 'rake'
 require 'bundler'
+Bundler::GemHelper.install_tasks
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -7,7 +12,6 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
-require 'rake'
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
@@ -23,20 +27,20 @@ Jeweler::Tasks.new do |gem|
 end
 Jeweler::RubygemsDotOrgTasks.new
 
-begin
-  require 'rspec/core/rake_task'
-  RSpec::Core::RakeTask.new
-rescue LoadError
-  task(:spec){abort "`gem install rspec` to run specs"}
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = 'spec/**/*_spec.rb'
 end
+
 task :default => :spec
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
+require 'rdoc/task'
+RDoc::Task.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "mongoid_money #{version}"
+  rdoc.title = "mongoid_rateable #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
