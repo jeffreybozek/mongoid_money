@@ -18,12 +18,8 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{Money datatype for Mongoid. Inspired by Ruby Money.}
   gem.description = %Q{Money datatype for Mongoid. Inspired by Ruby Money. Makes handling money simple. Stores the value in the db as cents. Currently handles USD.}
   gem.email = "jeff.bozek@gmail.com"
-  gem.authors = ["Jeff Bozek"]
+  gem.authors = ["Jeff Bozek", "Peter Savichev (proton)"]
   gem.files = Dir.glob('lib/**/*.rb')
-  # Include your dependencies below. Runtime dependencies are required when using your gem,
-  # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  gem.add_runtime_dependency 'mongo', '~> 1.1'
-  gem.add_runtime_dependency 'mongoid', '~> 2.0.2'
 end
 Jeweler::RubygemsDotOrgTasks.new
 

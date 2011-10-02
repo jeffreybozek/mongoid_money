@@ -1,6 +1,7 @@
 class Money < Numeric
   extend Mongoid::Extensions::Money::Conversions
   include Comparable
+	include Mongoid::Fields::Serializable
 
   attr_reader :cents
 
@@ -13,7 +14,7 @@ class Money < Numeric
       when Float
         Money.new((BigDecimal.new(value.to_s) * 100).fix)
       when Numeric
-        Money.new((BigDecimal.new(value.to_s) * 100).fix)
+        Money.new(value * 100)
       when String
         Money.new((BigDecimal.new(value.to_s) * 100).fix)
       else
@@ -27,6 +28,14 @@ class Money < Numeric
 
   def initialize(cents)
     @cents = cents.round.to_i
+  end
+
+  def deserialize(object)
+    object.nil? ? nil : Money.new(object.to_i)
+  end
+
+  def serialize(object)
+    object.nil? ? nil : object.cents
   end
 
   def dollars
@@ -77,7 +86,7 @@ class Money < Numeric
 
   def /(value)
     if value.is_a?(Money)
-      (cents / BigDecimal.new(value.cents.to_s)).to_f
+      (cents / value.cents.to_f).to_f
     else
       Money.new(cents / value)
     end
