@@ -3,19 +3,24 @@ class Money < Numeric
   include Comparable
 
   attr_reader :cents
+  
+  class << self
+    attr_accessor :multiplier
+  end
+  @multiplier = 100
 
   def self.new_from_dollars(value)
     case value
       when Fixnum
-        Money.new(value * 100)
+        Money.new(value * Money.multiplier)
       when BigDecimal
-        Money.new((value * 100).fix)
+        Money.new((value * Money.multiplier).fix)
       when Float
-        Money.new((BigDecimal.new(value.to_s) * 100).fix)
+        Money.new((BigDecimal.new(value.to_s) * Money.multiplier).fix)
       when Numeric
-        Money.new((BigDecimal.new(value.to_s) * 100).fix)
+        Money.new((BigDecimal.new(value.to_s) * Money.multiplier).fix)
       when String
-        Money.new((BigDecimal.new(value.to_s) * 100).fix)
+        Money.new((BigDecimal.new(value.to_s) * Money.multiplier).fix)
       else
         raise ArgumentError, "#{value} must be a numeric object or a string representation of a number."
     end
@@ -30,7 +35,7 @@ class Money < Numeric
   end
 
   def dollars
-    (BigDecimal.new(cents.to_s) / 100 ).to_f
+    (BigDecimal.new(cents.to_s) / Money.multiplier ).to_f
   end
 
   def ==(other_money)

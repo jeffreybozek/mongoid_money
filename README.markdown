@@ -40,7 +40,11 @@ or
 
     Item.where(:price.gt => 10.dollars)
 
+If you want to store fractions of a cent you can also adjust the multiplier (default is 100):
 
+    10.123.dollars # => 10.12
+    Money.multiplier = 1000
+    10.123.dollars # => 10.123
 
 ## Contributing to mongoid_money
  
