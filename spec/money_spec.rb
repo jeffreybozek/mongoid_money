@@ -2,6 +2,15 @@ require 'spec_helper'
 
 describe Money do
   
+  describe "changes in precision" do
+    it 'should work storing more digits' do
+      original = Money.multiplier
+      Money.multiplier = 1000
+      10.dollars.should == 10000.cents
+      Money.multiplier = original
+    end
+  end
+  
   describe "#==" do
     it 'should identify equal dollar values correctly' do
       (10.dollars == Money.new_from_dollars(10)).should eq true
