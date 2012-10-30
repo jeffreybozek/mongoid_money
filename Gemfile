@@ -6,13 +6,12 @@ source "http://rubygems.org"
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do
-  gem "bundler", "~> 1.0.0"
-  gem "jeweler", "~> 1.5.2"
+  gem "bundler"
+  gem "jeweler"
   gem "rspec"
   gem "shoulda"
-  gem 'mongo', "~> 1.1"
-  gem 'mongo_ext'
-  gem "mongoid", '2.0.2'
-  gem "bson_ext", "~> 1.3"
+  gem "bson_ext"
   gem "database_cleaner"
+  gem "mongoid"
+  gem "mongo"
 end

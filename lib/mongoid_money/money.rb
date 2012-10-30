@@ -157,6 +157,45 @@ class Money < Numeric
     return other, to_f
   end
 
+  # Converts an object of this instance into a database friendly value.
+  def mongoize
+    cents
+  end
+
+  class << self
+
+    # Get the object as it was stored in the database, and instantiate
+    # this custom class from it.
+    def demongoize(object)
+      Money.new(object)
+    end
+
+    # Takes any possible object and converts it to how it would be
+    # stored in the database.
+    def mongoize(object)
+      case object
+      when Money then object.mongoize
+      when Hash then Point.new(object[:x], object[:y]).mongoize
+      else object
+      end
+    end
+
+    # Converts the object that was supplied to a criteria and converts it
+    # into a database friendly form.
+    def evolve(object)
+      case object
+      when Money then object.mongoize
+      when Fixnum then Money.new(value * 100)
+      when BigDecimal then Money.new((value * 100).fix)
+      when Float then Money.new((BigDecimal.new(value.to_s) * 100).fix)
+      when Numeric then Money.new((BigDecimal.new(value.to_s) * 100).fix)
+      when String then Money.new((BigDecimal.new(value.to_s) * 100).fix)
+      else
+        raise ArgumentError, "#{value} must be a numeric object or a string representation of a number."
+      end
+    end
+  end
+
 end
 
 class Numeric
